@@ -19,7 +19,7 @@ class Manager
      * @param             $code
      * @param string|null $email
      */
-    public function redeem($code, string $email = null)
+    public function redeem($code, $email = null)
     {
         $invite = $this->prep($code, $email);
 
@@ -32,7 +32,7 @@ class Manager
      *
      * @return bool
      */
-    public function check($code, string $email = null)
+    public function check($code, $email = null)
     {
         try {
             $this->prep($code, $email);
@@ -43,7 +43,7 @@ class Manager
         }
     }
 
-    protected function prep($code, string $email = null)
+    protected function prep($code, $email = null)
     {
         $this->error = '';
         $invite = $this->lookupInvite($code);
@@ -58,7 +58,7 @@ class Manager
      * @return \Clarkeash\Doorman\Models\Invite
      * @throws \Clarkeash\Doorman\Exceptions\InvalidInviteCode
      */
-    protected function lookupInvite($code): Invite
+    protected function lookupInvite($code)
     {
         try {
             return Invite::where('code', '=', Str::upper($code))->firstOrFail();
@@ -75,7 +75,7 @@ class Manager
      * @throws \Clarkeash\Doorman\Exceptions\MaxUsesReached
      * @throws \Clarkeash\Doorman\Exceptions\NotYourInviteCode
      */
-    protected function validateInvite(Invite $invite, string $email = null)
+    protected function validateInvite(Invite $invite, $email = null)
     {
         if ($invite->max != 0 && $invite->uses >= $invite->max) {
             throw new MaxUsesReached(trans('doorman::messages.maxed', [ 'code' => $invite->code ]));

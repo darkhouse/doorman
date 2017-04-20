@@ -19,7 +19,7 @@ class Generator
      *
      * @return $this
      */
-    public function times(int $amount = 1)
+    public function times($amount = 1)
     {
         $this->amount = $amount;
 
@@ -31,7 +31,7 @@ class Generator
      *
      * @return $this
      */
-    public function uses(int $amount = 1)
+    public function uses($amount = 1)
     {
         $this->uses = $amount;
 
@@ -43,7 +43,7 @@ class Generator
      *
      * @return $this
      */
-    public function for (string $email)
+    public function forEmail ($email)
     {
         $this->email = $email;
 
@@ -77,7 +77,7 @@ class Generator
     /**
      * @return \Clarkeash\Doorman\Models\Invite
      */
-    protected function build(): Invite
+    protected function build()
     {
         $invite = new Invite;
         $invite->code = Str::upper(Str::random(5));
