@@ -10,6 +10,7 @@ use Clarkeash\Doorman\Exceptions\NotYourInviteCode;
 use Clarkeash\Doorman\Models\Invite;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Manager
 {
@@ -41,6 +42,23 @@ class Manager
             $this->error = $e->getMessage();
             return false;
         }
+    }
+
+    /**
+     * @param             $code
+     * @param string|null $email
+     *
+     * @return bool
+     */
+    public function findByEmail($email)
+    {
+        return Invite::where('for', '=', $email)
+            ->whereRaw('`max` > `uses`')
+            ->where(function ($query) {
+                $query->whereNull('valid_until')
+                    ->orWhere('valid_until', '>', Carbon::now());
+            })
+            ->first();
     }
 
     protected function prep($code, $email = null)

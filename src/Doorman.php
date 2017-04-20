@@ -14,6 +14,11 @@ class Doorman
         return (new Manager)->check($code, $email);
     }
 
+    public function findByEmail($email)
+    {
+        return (new Manager)->findByEmail($email);
+    }
+
     public function generate()
     {
         return new Generator;
